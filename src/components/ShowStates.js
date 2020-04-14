@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from "axios"
-import { Card, Button, CardColumns } from 'react-bootstrap'
+import { Card, Button, CardColumns, DropdownButton, Dropdown } from 'react-bootstrap'
 
 export default class ShowStates extends Component {
   constructor() {
@@ -10,8 +10,16 @@ export default class ShowStates extends Component {
     }
   }
 
+  handleDelete = async (id) => {
+        axios.delete(`https://git.heroku.com/ceutracker-react-frontend.git/usstates/${id}.json`)
+        .then(response => response.data)
+          .catch((error) => {
+            throw error.response.data
+        })
+    }
+
   componentDidMount() {
-    axios.get('http://localhost:3000/usstates.json')
+    axios.get('https://git.heroku.com/ceutracker-react-frontend.git/usstates.json')
     .then(res => {
       console.log(res);
       this.setState({ usstates: res.data })
@@ -31,7 +39,10 @@ export default class ShowStates extends Component {
           {usstate.conditions}
           </Card.Text>
           <Card.Link href={usstate.link}>State Link</Card.Link>
-          
+            <DropdownButton id="dropdown-basic-button" title="Admin button">
+            <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
+            <Dropdown.Item onClick={this.handleDelete}>Delete</Dropdown.Item>
+            </DropdownButton>
           </Card.Body>
           </Card>
         ))}

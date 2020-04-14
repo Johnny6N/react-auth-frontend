@@ -20,7 +20,7 @@ export default class Home extends Component {
   }
 
   handleLogoutClick = () => {
-    axios.delete('http://localhost:3000/logout', { withCredentials: true})
+    axios.delete('https://git.heroku.com/ceutracker-react-frontend.git/logout', { withCredentials: true})
     .then(response => {
       this.props.handleLogout();
     })

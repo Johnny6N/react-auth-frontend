@@ -23,7 +23,7 @@ export default class App extends Component {
   }
 
   checkLoginStatus() {
-    axios.get('http://localhost:3000/logged_in',
+    axios.get('https://git.heroku.com/ceutracker-react-frontend.git/logged_in',
       { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
