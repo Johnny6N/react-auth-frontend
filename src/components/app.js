@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route} from "react-router-dom"
 import Home from './Home'
 import Dashboard from "./Dashboard"
 import axios from "axios"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default class App extends Component {
@@ -54,30 +55,10 @@ export default class App extends Component {
   render() {
     return (
       <div className='app'>
-      <BrowserRouter>
-      <Switch>
-        <Route
-          exact
-          path={"/"}
-          render={props => (
-            <Home {...props}
+            <Home
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}  loggedInStatus={this.state.loggedInStatus}
             />
-          )}
-        />
-        <Route
-          exact
-          path={"/dashboard"}
-          render={props => (
-            <Dashboard
-              {...props}
-              loggedInStatus={this.state.loggedInStatus}
-            />
-          )}
-        />
-      </Switch>
-      </BrowserRouter>
       </div>
     );
   }

@@ -30,6 +30,7 @@ export default class Registration extends Component {
     .then(response => {
       if (response.data.status === 'created') {
       this.props.handleSuccessfulAuth(response.data)
+      this.props.toggleSignIn()
     }
     })
     .catch(err => {
@@ -41,7 +42,8 @@ export default class Registration extends Component {
   render() {
     return (
       <div>
-      <form onSubmit={this.handleSubmit}>
+      <form
+      onSubmit={this.handleSubmit} onSubmit={this.toggleSignIn}>
       <input
         type='email'
         name='email'

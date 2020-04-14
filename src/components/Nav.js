@@ -2,10 +2,9 @@ import React, { Component } from "react"
 import Registration from "./auth/Registration"
 import Login from "./auth/Login"
 import axios from "axios"
-import { Nav, Button, Container } from 'react-bootstrap'
-import ShowStates from "./ShowStates.js"
+import { Button, Container } from 'react-bootstrap'
 
-export default class Home extends Component {
+export default class Nav extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,6 +16,7 @@ export default class Home extends Component {
   handleSuccessfulAuth = (data) => {
     this.props.handleLogin(data)
     console.log(data);
+    this.props.history.push('/dashboard')
   }
 
   handleLogoutClick = () => {
@@ -47,27 +47,21 @@ export default class Home extends Component {
     const {showSignUp} = this.state
     const {showSignIn} = this.state
     return (
-      <div>
       <Nav>
       <div>
       {this.props.loggedInStatus === "LOGGED_IN"
       ? <Button onClick={() => this.handleLogoutClick()}>Logout</Button>
-      : <Button onClick={this.toggleSignUp}>New Account</Button>} &nbsp;
-      {this.props.loggedInStatus === "LOGGED_IN"
-      ? ""
-      : <Button onClick={this.toggleSignIn}>Sign in</Button>} &nbsp;
-
+      : ""
+      }
+      <Button onClick={this.toggleSignUp}>New Account</Button> &nbsp;
+      <Button onClick={this.toggleSignIn}>Sign in</Button> &nbsp;
       </div>
 
-      <div>
+      <div className="Container fluid">
       {showSignUp === true ? <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/> : ""}
-      {showSignIn === true ? <Login handleSuccessfulAuth={this.handleSuccessfulAuth}
-      toggleSignIn={this.toggleSignIn}/> : ""}
+      {showSignIn === true ? <Login handleSuccessfulAuth={this.handleSuccessfulAuth}/> : ""}
       </div>
       </Nav>
-
-      <ShowStates />
-      </div>
     )
   }
 }
