@@ -10,20 +10,38 @@ export default class ShowStates extends Component {
     }
   }
 
-  handleDelete = async (id) => {
-        axios.delete(`https://git.heroku.com/ceutracker-react-frontend.git/usstates/${id}.json`)
-        .then(response => response.data)
-          .catch((error) => {
-            throw error.response.data
-        })
+  fetchStates = async () => {
+      let response = axios.get('http://localhost:3000/usstates.json')
+      .then(res => {
+        console.log(res);
+        this.setState({ usstates: res.data })
+      })
     }
 
-  componentDidMount() {
-    axios.get('https://git.heroku.com/ceutracker-react-frontend.git/usstates.json')
-    .then(res => {
-      console.log(res);
-      this.setState({ usstates: res.data })
+
+  handleDelete = async (id) => {
+    let response = await axios.delete(`http://localhost:3000/usstates/${id}`, {
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
     })
+  }
+
+  handleUpdate = async updateState => {
+        let response = await axios.put(`http://localhost:3000/usstates/${updateState.id}`, {
+          body: JSON.stringify(updateState),
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          }
+        })
+        let data = await response.json()
+        this.fetchStates()
+      }
+
+  componentDidMount() {
+    this.fetchStates()
   }
 
   render() {
@@ -31,7 +49,8 @@ export default class ShowStates extends Component {
         <div>
         <CardColumns>
         {this.state.usstates.map(usstate =>(
-          <Card bg="primary" text="white" style={{ width: '18rem' }}>
+
+          <Card key={usstate.id} bg="primary" text="white" style={{ width: '18rem' }}>
           <Card.Body>
           <Card.Title>{usstate.name}</Card.Title>
           <Card.Subtitle>Hours needed:{usstate.hours}, {usstate.periodicity}</Card.Subtitle>

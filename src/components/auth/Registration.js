@@ -18,7 +18,7 @@ export default class Registration extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    axios.post('https://git.heroku.com/ceutracker-react-frontend.git/registrations', {
+    axios.post('http://localhost:3000/registrations', {
       user: {
       email: this.state.email,
       password: this.state.password,

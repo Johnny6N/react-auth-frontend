@@ -23,7 +23,7 @@ export default class App extends Component {
   }
 
   checkLoginStatus() {
-    axios.get('https://git.heroku.com/ceutracker-react-frontend.git/logged_in',
+    axios.get('http://localhost:3000/logged_in',
       { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
@@ -52,14 +52,33 @@ export default class App extends Component {
       user: {}
     })
   }
+
   render() {
     return (
       <div className='app'>
-            <Home
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}  loggedInStatus={this.state.loggedInStatus}
+        <BrowserRouter>
+          <Switch>
+            <Route
+            exact
+            path={"/"}
+            render={props => (
+              <Home {...props}
+              handleLogin={this.handleLogin}
+              handleLogout={this.handleLogout}  loggedInStatus={this.state.loggedInStatus} />
+              )}
             />
-      </div>
-    );
+            <Route
+            exact
+            path={"/dashboard"}
+            render={props => (
+              <Dashboard {...props}
+              handleLogin={this.handleLogin}
+              handleLogout={this.handleLogout}  loggedInStatus={this.state.loggedInStatus} />
+              )}
+            />
+          </Switch>
+          </BrowserRouter>
+        </div>
+    )
   }
 }
